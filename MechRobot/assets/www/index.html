@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="dns-prefetch" href="//example.com"> <!-- to disable <meta http-equiv="x-dns-prefetch-control" content="off"> -->
+    
+  <title>Mechtronics MME4487a Robot</title>
+  <meta name="description" content="">
+  <meta name="author" content="midroid">
+
+  <meta name="viewport" content="width=device-width,initial-scale=1; minimum-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <meta name="apple-touch-fullscreen" content="yes" />
+
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+  <link href="css/font-awesome.css" rel="stylesheet">
+  <link href="css/micorder.css" rel="stylesheet">
+  <link href="css/micorder-responsive.css" rel="stylesheet">
+
+  <script src="cordova-2.2.0.js"></script>
+  
+</head>
+<body class="normal">
+
+  <header class="navbar navbar-fixed-top" id='target'>
+  <div class="navbar-inner">
+  <div class="container-fluid">
+
+    <a class="brand"><img src="img/midroid_logo.png" /></a>
+
+    <ul class="nav pull-right">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="icon-xlarge icon-th-list"></i> <b class="caret"></b></a>
+        
+
+        <ul class="dropdown-menu">
+          <li class="account-info">
+            <!-- Button to trigger modal -->
+            <a onclick="discoverDevices();" href="#myModal1" role="button" data-toggle="modal">Discover Devices</a>
+          </li>
+          <br>
+          <li class="account-info">
+            <!-- Button to trigger modal -->
+            <a id='bt-connect' onclick="openRfcomm();" href="#myModal2" role="button" data-toggle="modal">Pair Devices</a>
+          </li>
+          <br>
+          <li>
+            <a onclick="openRfcomm();">Reset</a>
+          </li>
+        </ul>
+
+      </li>
+    </ul> <!-- ./ user dropdown -->            
+  </div>
+</div> <!-- ./ Top navbar -->
+  </header> <!-- End of Header/nav -->
+
+
+  <section class="main" id="wrapper">
+    <!-- Modal -->
+    <div id="myModal1" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Bluetooth Pairing</h3>
+      </div>
+      <div class="modal-body">
+        <a id='bt-pair' onclick="discoverDevices();">Refresh List</a>
+        <select id='bt-devices-select'></select>
+        <br>
+        <a id='bt-pair' onclick="listUUIDs();">List UUIDs</a>
+        <select id='bt-device-uuids'></select>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+
+    <div id="myModal2" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Connection Test</h3>
+      </div>
+      <div class="modal-body">
+        <button class="btn btn-warning btn-large" onclick="readRfcomm();">Test Connection</button>
+        <br />
+        <div id='bt-data-dump'></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+
+    <div class="container">
+          <div class="row">
+            <br>
+            <button class="btn btn-large" onclick="writeRfcomm(8);">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Open &nbsp &nbsp &nbsp &nbsp &nbsp</button>
+            <button class="btn btn-large" onclick="writeRfcomm(9);">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Close &nbsp &nbsp &nbsp &nbsp &nbsp</button>
+          </div>
+          <div class="row">
+            <br>
+            <button class="btn btn-large" onclick="writeRfcomm(7);">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Raise &nbsp &nbsp &nbsp &nbsp &nbsp</button>
+            <button class="btn btn-large" onclick="writeRfcomm(6);">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Lower &nbsp &nbsp &nbsp &nbsp</button>
+            <button class="btn btn-large" onclick="writeRfcomm(10);"> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Pause &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</button>
+          </div>
+          </div>
+          <br>
+          <div class="row">
+            <button class="btn btn-large" onclick="writeRfcomm(12);">&nbsp m-Left &nbsp</button>
+            &nbsp
+            <button class="btn btn-large" onclick="writeRfcomm(1);">&nbsp C-Forw &nbsp</button>
+            &nbsp
+            <button class="btn btn-large" onclick="writeRfcomm(13);">&nbsp m-Forw &nbsp</button>
+          </div>
+          <br>
+          <div class="row align-center">
+            <button class="btn btn-large" onclick="writeRfcomm(3);">&nbsp L-Back &nbsp</button>
+            &nbsp
+            <button class="btn btn-large" onclick="writeRfcomm(2);">&nbsp C-Back &nbsp</button>
+            &nbsp
+            <button class="btn btn-large" onclick="writeRfcomm(4);">&nbsp R-Back &nbsp &nbsp</button>
+          </div>
+          <br>
+          <div class="row">
+            &nbsp
+            <button class="btn" onclick="writeRfcomm(5);">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Full Stop &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</button>
+          </div>
+    </div>
+
+  </section>
+
+  <script type="text/javascript" charset="utf-8" src="bluetooth.js"></script>
+  <script src="js/libs/jquery/jquery-min.js"></script>
+  <script src="js/libs/bootstrap/bootstrap-2.0.4.min.js"></script>
+  
+  <script type="text/javascript" charset="utf-8">
+    var g_socketid = -1;
+    var g_bluetoothPlugin = null;
+    var g_center_forward = 0;
+    var g_center_backward = 0;
+    var g_pivot_left = 0;
+    var g_pivot_right = 0;
+    var g_stop = 0;
+    var g_step_cw = 0;
+    var g_step_ccw = 0;
+    var g_claw_open = 0;
+    var g_claw_close = 0;
+    var g_pause = 0;
+    var g_reset = 0;
+    /*
+    var g_micro_forward = 0;
+    var g_micro_left = 0;
+  	*/
+  	
+    window.addEventListener('load', function () {
+        document.addEventListener('deviceready', function () {
+            alert("Cordova is now loaded!");
+    	g_bluetoothPlugin = cordova.require( 'cordova/plugin/bluetooth' );
+        }, false);
+    }, false);
+
+
+    function discoverDevices() {
+      g_bluetoothPlugin.discoverDevices( function(devices) {
+    	  $('#bt-devices-select').html('');
+        for( var i = 0; i < devices.length; i++ ) {
+      	  $('#bt-devices-select').append( $( '<option value="' + devices[i].address + '">' + devices[i].name + '</option>' ) );
+        }
+      }, function(error) {
+        alert( 'Error: ' + error );
+      });
+    }
+    
+    function listUUIDs() {
+    	g_bluetoothPlugin.getUUIDs( function(uuids) {
+    		$('#bt-device-uuids').html('');
+    		for( var i = 0; i < uuids.length; i++ ) {
+    			$('#bt-device-uuids').append( $( '<option value="' + uuids[i] + '">' + uuids[i] + '</option>' ) );
+    		}
+    	}, function(error) {
+        alert( 'Error: ' + error );
+      }, $( '#bt-devices-select' ).val() );
+    }
+    
+    function openRfcomm() {
+    	g_bluetoothPlugin.connect( function(socketId) {
+        g_socketid = socketId;
+        console.log( 'Socket-id: ' + g_socketid );
+      }, function(error) {
+        alert( 'Error:    ' + error );
+      }, $( '#bt-devices-select' ).val(),
+      $( '#bt-device-uuids' ).val() );
+    }
+
+    function readRfcomm() {
+      g_bluetoothPlugin.read( function(p_data) {
+        $( '#bt-data-dump' ).html( p_data );
+      }, function(error) {
+        alert( 'Error: ' + error );
+      }, g_socketid );
+    }
+
+    function writeRfcomm(n) {
+      if (n == 1) {
+        g_center_forward = 1;
+        g_center_backward = 0;
+        g_pivot_left = 0;
+        g_pivot_right = 0;
+        g_stop = 0;
+        g_step_cw = 0;
+        g_step_ccw = 0;
+        g_claw_open = 0;
+        g_claw_close = 0;
+        g_pause = 0;
+        g_reset = 0;
+        /*
+        g_micro_forward = 0;
+        g_micro_left = 0;
+        */
+      } else if (n == 2) {
+        g_center_forward = 0;
+        g_center_backward = 1;
+        g_pivot_left = 0;
+        g_pivot_right = 0;
+        g_stop = 0;
+        g_step_cw = 0;
+        g_step_ccw = 0;
+        g_claw_open = 0;
+        g_claw_close = 0;
+        g_pause = 0;
+        g_reset = 0;
+        /*
+        g_micro_forward = 0;
+        g_micro_left = 0;
+        */
+      } else if (n == 3) {
+        g_center_forward = 0;
+        g_center_backward = 0;
+        g_pivot_left = 1;
+        g_pivot_right = 0;
+        g_stop = 0;
+        g_step_cw = 0;
+        g_step_ccw = 0;
+        g_claw_open = 0;
+        g_claw_close = 0;
+        g_pause = 0;
+        g_reset = 0;
+        /*
+        g_micro_forward = 0;
+        g_micro_left = 0;
+        */
+      } else if (n == 4) {
+        g_center_forward = 0;
+        g_center_backward = 0;
+        g_pivot_left = 0;
+        g_pivot_right = 1;
+        g_stop = 0;
+        g_step_cw = 0;
+        g_step_ccw = 0;
+        g_claw_open = 0;
+        g_claw_close = 0;
+        g_pause = 0;
+        g_reset = 0;
+        /*
+        g_micro_forward = 0;
+        g_micro_left = 0;
+        */        
+      } else if (n == 5) {
+        g_center_forward = 0;
+        g_center_backward = 0;
+        g_pivot_left = 0;
+        g_pivot_right = 0;
+        g_stop = 1;
+        g_step_cw = 0;
+        g_step_ccw = 0;
+        g_claw_open = 0;
+        g_claw_close = 0;
+        g_pause = 0;
+        g_reset = 0;
+        /*
+        g_micro_forward = 0;
+        g_micro_left = 0;
+        */      
+      } else if (n == 6) {
+        g_center_forward = 0;
+        g_center_backward = 0;
+        g_pivot_left = 0;
+        g_pivot_right = 0;
+        g_stop = 0;
+        g_step_cw = 1;
+        g_step_ccw = 0;
+        g_claw_open = 0;
+        g_claw_close = 0;
+        g_pause = 0;
+        g_reset = 0;
+        /*
+        g_micro_forward = 0;
+        g_micro_left = 0;
+        */       
+      } else if (n == 7) {
+        g_center_forward = 0;
+        g_center_backward = 0;
+        g_pivot_left = 0;
+        g_pivot_right = 0;
+        g_stop = 0;
+        g_step_cw = 0;
+        g_step_ccw = 1;
+        g_claw_open = 0;
+        g_claw_close = 0;
+        g_pause = 0;
+        g_reset = 0;
+        /*
+        g_micro_forward = 0;
+        g_micro_left = 0;
+        */        
+      } else if (n == 8) {
+        g_center_forward = 0;
+        g_center_backward = 0;
+        g_pivot_left = 0;
+        g_pivot_right = 0;
+        g_stop = 0;
+        g_step_cw = 0;
+        g_step_ccw = 0;
+        g_claw_open = 1;
+        g_claw_close = 0;
+        g_pause = 0;
+        g_reset = 0;
+        /*
+        g_micro_forward = 0;
+        g_micro_left = 0;
+        */       
+      } else if (n == 9) {
+        g_center_forward = 0;
+        g_center_backward = 0;
+        g_pivot_left = 0;
+        g_pivot_right = 0;
+        g_stop = 0;
+        g_step_cw = 0;
+        g_step_ccw = 0;
+        g_claw_open = 0;
+        g_claw_close = 1;
+        g_pause = 0;
+        g_reset = 0;  
+        /*
+        g_micro_forward = 0;
+        g_micro_left = 0;
+        */      
+      } else if (n == 10) {
+        g_center_forward = 0;
+        g_center_backward = 0;
+        g_pivot_left = 0;
+        g_pivot_right = 0;
+        g_stop = 0;
+        g_step_cw = 0;
+        g_step_ccw = 0;
+        g_claw_open = 0;
+        g_claw_close = 0;
+        g_pause = 1;
+        g_reset = 0;
+        /*
+        g_micro_forward = 0;
+        g_micro_left = 0;
+        */        
+      } /* else if (n == 12) {
+        g_center_forward = 0;
+        g_center_backward = 0;
+        g_pivot_left = 0;
+        g_pivot_right = 0;
+        g_stop = 0;
+        g_step_cw = 0;
+        g_step_ccw = 0;
+        g_claw_open = 0;
+        g_claw_close = 0;
+        g_pause = 0;
+        g_reset = 0;
+        g_micro_forward = 1;
+        g_micro_left = 0;
+      } else if (n == 13) {
+        g_center_forward = 0;
+        g_center_backward = 0;
+        g_pivot_left = 0;
+        g_pivot_right = 0;
+        g_stop = 0;
+        g_step_cw = 0;
+        g_step_ccw = 0;
+        g_claw_open = 0;
+        g_claw_close = 0;
+        g_pause = 0;
+        g_reset = 0;
+        g_micro_forward = 0;
+        g_micro_left = 1;
+      }
+      */
+      g_bluetoothPlugin.write( function(p_data) {
+        $( '#bt-data-dump' ).html( p_data );
+      }, function(error) {
+        alert( 'Error: ' + error );
+      }, g_socketid, g_center_forward, g_center_backward, g_pivot_left, g_pivot_right, g_stop,
+      g_step_cw, g_step_ccw, g_claw_open, g_claw_close, g_pause, g_reset /*g_micro_forward, g_micro_left */);
+    }
+    
+  </script>
+
+  
+</body>
+</html>

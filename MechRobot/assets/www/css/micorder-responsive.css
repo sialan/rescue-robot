@@ -1,0 +1,219 @@
+/*
+ * micorder Styles v0.1
+ *     
+ * Copyright 2012 Midroid Inc.
+ * License: GNU GPL v3.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Thoughtfully engineered (and partially "borrowed") by @alan_si
+ */
+ 
+/*
+ * -------------------------------------------------- 
+ * ::Table of Contents
+ * --------------------------------------------------
+ * :: Mobile (Portrait)
+ * :: Mobile (Portrait & Landscape)
+ * :: @media (min-width: 768px) & (max-width: 978px) Tablet (Portrait)
+ * :: @media (max-width: 978px) All Second Screen Devices
+ * :: X-Large
+ * --------------------------------------------------
+ */ 
+
+/*	--------------------------------------------------
+	:: Mobile (Portrait)
+	-------------------------------------------------- */ 
+@media (max-width: 480px) {
+.error-container h1 {
+	font-size: 72px;
+}
+}
+
+/*	--------------------------------------------------
+	:: Mobile (Portrait & Landscape)
+	-------------------------------------------------- */ 
+@media (max-width: 767px) {
+.container-fluid {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.main {
+    padding-top: 60px;
+    padding-bottom: 70px;
+}
+.board-nopad .board-content {
+	padding: 0;
+	border-left: none;
+	border-right: none;
+}
+.board-midder {
+	border-left: 1px solid #D5D5D5;
+	border-right: 1px solid #D5D5D5;
+}
+.footernavbar {
+	margin-left: 0px;
+	margin-right: 0px;	
+}
+.footernavbar-inner {
+	height: auto;
+}
+.footernavbar .container > ul {
+	width: 100%;
+	height: auto;	
+	border: none;
+}
+.footernavbar .container > ul > li {
+	width: 20%;
+	border: none;
+}
+.footernavbar .container > ul > li.btn-center {
+	width: 20%;
+	height: 60px;
+}
+.footernavbar .container > ul > li:active > a,
+.footernavbar .container > ul > li.active > a,
+.footernavbar .container > ul > li.active > a:hover {
+	font-size: 11px;
+	background: transparent;
+	color: #faa732;
+    text-decoration: none;
+    background-color: #333333;
+    border: none;
+    -moz-box-shadow:    inset 5px 5px 20px #888;
+    -webkit-box-shadow: inset 5px 5px 20px #888;
+    box-shadow:         inset 2px 2px 20px #000;
+    background-position: center;
+}
+.footernavbar .container > ul > li.btn-center > a,
+.footernavbar .container > ul > li.btn-center > a:hover {
+	background: transparent;
+	color: #FFFFFF;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	height: 90%;
+    background-position: center;
+    
+    background-color: #faa732;
+    background-image: -moz-linear-gradient(top, #fbb450, #f89406);
+    background-image: -ms-linear-gradient(top, #fbb450, #f89406);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fbb450), to(#f89406));
+    background-image: -webkit-linear-gradient(top, #fbb450, #f89406);
+    background-image: -o-linear-gradient(top, #fbb450, #f89406);
+    background-image: linear-gradient(top, #fbb450, #f89406);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fbb450', endColorstr='#f89406', GradientType=0);
+    
+    /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+    
+	-webkit-box-shadow: inset 0px -3px 1px rgba(0, 0, 0, 0.45), 0px 2px 2px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: inset 0px -3px 1px rgba(0, 0, 0, 0.45), 0px 2px 2px rgba(0, 0, 0, 0.25);
+    box-shadow: inset 0px -3px 1px rgba(0, 0, 0, 0.45), 0px 2px 2px rgba(0, 0, 0, 0.25);
+	
+	-webkit-border-top-left-radius: 4px;
+	-webkit-border-top-right-radius: 4px;
+	-moz-border-radius-topleft: 4px;
+	-moz-border-radius-topright: 4px;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+
+	-webkit-border-bottom-left-radius: 4px;
+	-webkit-border-bottom-right-radius: 4px;
+	-moz-border-radius-bottomleft: 4px;
+	-moz-border-radius-bottomright: 4px;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+}
+.footernavbar .container > ul > li.btn-center > a:active {
+    -webkit-box-shadow: inset 0px -3px 1px rgba(44, 44, 44, 1), inset 0 0px 3px rgba(0, 0, 0, 0.9);
+    -moz-box-shadow: inset 0px -3px 1px rgba(44, 44, 44, 1), inset 0 0px 3px rgba(0, 0, 0, 0.9);
+    box-shadow: inset 0px -3px 1px rgba(44, 44, 44, 1), inset 0 0px 3px rgba(0, 0, 0, 0.9);
+    
+    -webkit-transition: -webkit-box-shadow .2s ease-in-out;
+    -moz-transition: -moz-box-shadow .2s ease-in-out;
+    -o-transition: -o-box-shadow .2s ease-in-out;
+    transition: box-shadow .2s ease-in-out;
+}
+.footernavbar .container > ul > li.btn-center > a > i {	
+	font-size: 48px;
+	margin-top: 6px;
+	margin-bottom: 6px;
+	padding: 0px 18px 12px 0;
+}
+.extra .container {
+	padding: 0 20px;
+}
+.footer {
+	margin-right: -20px;
+	margin-left: -20px;
+}
+.footer .container {
+	padding: 0 20px;
+}
+.footer .footer-terms {
+	text-align: left;
+}
+.footer .footer-terms a {
+	margin-left: 0;
+	margin-right: 1em;
+}
+}
+
+/*	--------------------------------------------------
+	:: Mobile (Portrait & Landscape)
+	-------------------------------------------------- */ 
+
+@media (min-width: 768px) and (max-width: 978px) {
+    .main {
+        padding-top: 70px;
+    }
+}
+/*	--------------------------------------------------
+	:: Mobile (Portrait & Landscape)
+	-------------------------------------------------- */ 
+@media (max-width: 978px) {
+body {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.extra {
+	margin-right: -5px;
+	margin-left: -5px;
+}
+.navbar-fixed-bottom .navbar-inner {
+    padding: 0px;
+}
+.navbar-fixed-top {
+	position: fixed;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+.navbar-fixed-bottom {
+    position: fixed;
+    margin-bottom: 5px;
+}
+.footernavbar .container {		
+	width: auto;
+}
+.back{
+    position: relative;
+    left: 36px;
+    top: 8px;
+}
+.forward{
+    position: relative;
+    left: 54px;
+    top: 8px;
+}
+}
+
+/*	--------------------------------------------------
+	:: X-Large
+	-------------------------------------------------- */ 
+
+@media (min-width: 1200px) {
+.navbar .search-query {
+	width: 200px;
+}
+}
